@@ -1,9 +1,9 @@
 {
-    "name": "renoki-co/:package_name",
-    "description": ":package_description",
-    "keywords": ["laravel", "php"],
+    "name": "renoki-co/laravel-prerender",
+    "description": "Prerender Laravel pages using Clusteer and this nice package.",
+    "keywords": ["laravel", "php", "prerender", "ssr", "server", "side", "rendering", "render", "seo", "first", "contentful", "paint", "puppeteer", "clusteer"],
     "license": "Apache-2.0",
-    "homepage": "https://github.com/renoki-co/:package_name",
+    "homepage": "https://github.com/renoki-co/laravel-prerender",
     "authors": [
         {
             "name": "Alex Renoki",
@@ -12,26 +12,26 @@
         }
     ],
     "require": {
-        "php": "^8.0"
+        "php": "^8.0",
+        "illuminate/http": "^8.0",
+        "renoki-co/clusteer": "^2.0"
     },
     "autoload": {
         "psr-4": {
-            "RenokiCo\\:package_namespace\\": "src/"
+            "RenokiCo\\LaravelPrerender\\": "src/"
         }
     },
     "autoload-dev": {
         "psr-4": {
-            "RenokiCo\\:package_namespace\\Test\\": "tests"
+            "RenokiCo\\LaravelPrerender\\Test\\": "tests"
         }
     },
     "scripts": {
         "test": "vendor/bin/phpunit"
     },
     "require-dev": {
-        "laravel/legacy-factories": "^1.1",
         "mockery/mockery": "^1.4",
-        "orchestra/testbench": "^5.0|^6.0",
-        "orchestra/database": "^5.0|^6.0"
+        "orchestra/testbench": "^5.0|^6.0"
     },
     "config": {
         "sort-packages": true
@@ -40,7 +40,7 @@
     "extra": {
         "laravel": {
             "providers": [
-                "RenokiCo\\:package_namespace\\:package_service_provider"
+                "RenokiCo\\LaravelPrerender\\LaravelPrerenderServiceProvider"
             ]
         }
     }
