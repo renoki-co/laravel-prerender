@@ -1,0 +1,23 @@
+<div id="app">
+  <div>
+    <div v-for="({ title }, i) in todos" :key="i">
+      Todo: {{ title }}
+    </div>
+  </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/vue@2.6.14"></script>
+<script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+<script>
+  new Vue({
+    el: '#app',
+    data: {
+      todos: [],
+    },
+    mounted() {
+      axios.get('https://jsonplaceholder.typicode.com/todos').then(res => {
+        this.todos = res.data;
+      });
+    },
+  });
+</script>

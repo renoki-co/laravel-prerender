@@ -2,7 +2,9 @@
 
 namespace RenokiCo\LaravelPrerender;
 
+use Illuminate\Http\Request;
 use Illuminate\Support\ServiceProvider;
+use Jenssegers\Agent\Facades\Agent;
 
 class LaravelPrerenderServiceProvider extends ServiceProvider
 {
@@ -13,13 +15,7 @@ class LaravelPrerenderServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-        $this->publishes([
-            __DIR__.'/../config/prerender.php' => config_path('prerender.php'),
-        ], 'config');
-
-        $this->mergeConfigFrom(
-            __DIR__.'/../config/prerender.php', 'prerender'
-        );
+        $this->registerPrerenderChecks();
     }
 
     /**
@@ -30,5 +26,31 @@ class LaravelPrerenderServiceProvider extends ServiceProvider
     public function register()
     {
         //
+    }
+
+    /**
+     * Register the prerender default checks.
+     *
+     * @return void
+     */
+    protected function registerPrerenderChecks(): void
+    {
+        Prerender::shouldPrerender(function (Request $request) {
+            // Avoid infinite loop by excluding Clusteerbot/2.0 from prerendering,
+            // because Clusteer is mimicking the browser.
+            if ($request->userAgent() === 'Clusteerbot/2.0') {
+                return false;
+            }
+
+            if (! is_null($request->query('_escaped_fragment_'))) {
+                return true;
+            }
+
+            if (Agent::isRobot() || $request->hasHeader('X-BUFFERBOT')) {
+                return true;
+            }
+
+            return false;
+        });
     }
 }
