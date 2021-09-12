@@ -45,6 +45,8 @@ abstract class TestCase extends Orchestra
     protected function tearDown(): void
     {
         $this->server->stop();
+
+        sleep(2);
     }
 
     /**
