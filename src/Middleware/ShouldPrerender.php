@@ -40,7 +40,7 @@ class ShouldPrerender
             $clusteer = Prerender::mutateClusteer(
                 Clusteer::to($request->fullUrl())
                     ->waitUntilAllRequestsFinish()
-                    ->setUserAgent('Clusteerbot/2.0')
+                    ->setUserAgent('Clusteerbot/3.0')
                     ->withHtml(),
                 $request,
             )->get();

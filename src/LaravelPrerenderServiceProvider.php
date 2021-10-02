@@ -15,6 +15,11 @@ class LaravelPrerenderServiceProvider extends ServiceProvider
      */
     public function boot()
     {
+        Request::macro('isFromClusteer', function () {
+            /** @var \Illuminate\Http\Request $this */
+            return $this->userAgent() === 'Clusteerbot/3.0';
+        });
+
         $this->registerPrerenderChecks();
     }
 
@@ -36,9 +41,9 @@ class LaravelPrerenderServiceProvider extends ServiceProvider
     protected function registerPrerenderChecks(): void
     {
         Prerender::shouldPrerender(function (Request $request) {
-            // Avoid infinite loop by excluding Clusteerbot/2.0 from prerendering,
+            // Avoid infinite loop by excluding Clusteerbot/3.0 from prerendering,
             // because Clusteer is mimicking the browser.
-            if ($request->userAgent() === 'Clusteerbot/2.0') {
+            if ($request->isFromClusteerbot()) {
                 return false;
             }
 

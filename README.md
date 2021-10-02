@@ -71,9 +71,9 @@ use Jenssegers\Agent\Facades\Agent;
 use RenokiCo\LaravelPrerender\Prerender;
 
 Prerender::shouldPrerender(function (Request $request) {
-    // Avoid infinite loop by excluding Clusteerbot/2.0 from prerendering,
+    // Avoid infinite loop by excluding Clusteerbot/3.0 from prerendering,
     // because Clusteer is mimicking the browser.
-    if ($request->userAgent() === 'Clusteerbot/2.0') {
+    if ($request->isFromClusteerBot()) {
         return false;
     }
 
@@ -89,16 +89,16 @@ Prerender::shouldPrerender(function (Request $request) {
 });
 ```
 
-You may overwrite the prerender technique in your `AppServiceProvider`'s `boot()` method. **Make sure to also avoid prerendering in case the `User-Agent` header is `Clusteerbot/2.0`**. In the future, this header might change according to the package updates, but they will be marked as breaking changes.
+You may overwrite the prerender technique in your `AppServiceProvider`'s `boot()` method. **Make sure to also avoid prerendering in case the `User-Agent` header is `Clusteerbot/3.0`**. In the future, this header might change according to the package updates, but they will be marked as breaking changes.
 
 ```php
 use Illuminate\Http\Request;
 use RenokiCo\LaravelPrerender\Prerender;
 
 Prerender::shouldPrerender(function (Request $request) {
-    // Avoid infinite loop by excluding Clusteerbot/2.0 from prerendering,
+    // Avoid infinite loop by excluding Clusteerbot/3.0 from prerendering,
     // because Clusteer is mimicking the browser.
-    if ($request->userAgent() === 'Clusteerbot/2.0') {
+    if ($request->isFromClusteerBot()) {
         return false;
     }
 
@@ -115,7 +115,7 @@ The `$clusteer` object is already initialized like below. You are free to append
 ```php
 Clusteer::to($request->fullUrl())
     ->waitUntilAllRequestsFinish()
-    ->setUserAgent('Clusteerbot/2.0')
+    ->setUserAgent('Clusteerbot/3.0')
     ->withHtml();
 ```
 

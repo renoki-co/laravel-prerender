@@ -11,15 +11,15 @@ class CrawlingTest extends TestCase
     public function test_prerender_with_header_and_without_header()
     {
         Prerender::shouldPrerender(function (Request $request) {
-            return $request->header('User-Agent') !== 'Clusteerbot/2.0';
+            return ! $request->isFromClusteerBot();
         });
 
         Prerender::mutateClusteerOnRequest(function (Clusteer $clusteer, Request $request) {
             // Temporary mock the URL to the testing Node.js app.
-            return $clusteer->setUrl('http://localhost:8000');
+            return $clusteer->setUrl('http://localhost:8000')->wait(2000);
         });
 
-        $this->withHeaders(['User-Agent' => 'Clusteerbot/2.0'])
+        $this->withHeaders(['User-Agent' => 'Clusteerbot/3.0'])
             ->get(route('todos'))
             ->assertSee('Todo: {{ title }}');
 
@@ -32,15 +32,15 @@ class CrawlingTest extends TestCase
     public function test_prerender_with_escaped_string()
     {
         Prerender::shouldPrerender(function (Request $request) {
-            return $request->header('User-Agent') !== 'Clusteerbot/2.0';
+            return ! $request->isFromClusteerBot();
         });
 
         Prerender::mutateClusteerOnRequest(function (Clusteer $clusteer, Request $request) {
             // Temporary mock the URL to the testing Node.js app.
-            return $clusteer->setUrl('http://localhost:8000?_escaped_fragment_=');
+            return $clusteer->setUrl('http://localhost:8000?_escaped_fragment_=')->wait(2000);
         });
 
-        $this->withHeaders(['User-Agent' => 'Clusteerbot/2.0'])
+        $this->withHeaders(['User-Agent' => 'Clusteerbot/3.0'])
             ->get(route('todos'))
             ->assertSee('Todo: {{ title }}');
 
