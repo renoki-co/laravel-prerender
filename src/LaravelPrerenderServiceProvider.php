@@ -15,7 +15,7 @@ class LaravelPrerenderServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-        Request::macro('isFromClusteer', function () {
+        Request::macro('isFromClusteerBot', function () {
             /** @var \Illuminate\Http\Request $this */
             return $this->userAgent() === 'Clusteerbot/3.0';
         });
