@@ -16,7 +16,7 @@ class CrawlingTest extends TestCase
 
         Prerender::mutateClusteerOnRequest(function (Clusteer $clusteer, Request $request) {
             // Temporary mock the URL to the testing Node.js app.
-            return $clusteer->setUrl('http://localhost:8000')->wait(2000);
+            return $clusteer->setUrl('http://localhost:8000')->wait(2);
         });
 
         $this->withHeaders(['User-Agent' => 'Clusteerbot/3.0'])
@@ -37,7 +37,7 @@ class CrawlingTest extends TestCase
 
         Prerender::mutateClusteerOnRequest(function (Clusteer $clusteer, Request $request) {
             // Temporary mock the URL to the testing Node.js app.
-            return $clusteer->setUrl('http://localhost:8000?_escaped_fragment_=')->wait(2000);
+            return $clusteer->setUrl('http://localhost:8000?_escaped_fragment_=')->wait(2);
         });
 
         $this->withHeaders(['User-Agent' => 'Clusteerbot/3.0'])
