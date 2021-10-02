@@ -44,9 +44,13 @@ abstract class TestCase extends Orchestra
      */
     protected function tearDown(): void
     {
+        parent::tearDown();
+
         $this->server->stop();
 
-        sleep(2);
+        while ($this->server->isRunning()) {
+            sleep(1);
+        }
     }
 
     /**
